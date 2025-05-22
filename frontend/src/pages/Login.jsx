@@ -31,7 +31,7 @@ const Login = () => {
                 </div>
                 <div className="mt-4 pt-4 border-t border-gray-300 ">
                     <p>
-                        Don't have an account? <a href="/register" className="text-blue-600 hover:underline">Register?</a>
+                        Don't have an account? <a href="/signup" className="text-blue-600 hover:underline">Signup</a>
                     </p>
                 </div>
                 

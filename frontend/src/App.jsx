@@ -63,7 +63,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Landingpage from './pages/Landingpage';
 import Login from './pages/Login';
-import Register from './pages/Register';
+import Signup from './pages/Signup';
 import Complainlist from './pages/Complainlist';
 import AdminDashboard from './pages/admindashboard';
 
@@ -80,7 +80,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Register Page */}
-        <Route path="/register" element={<Register />} />
+        <Route path="/signup" element={<Signup />} />
       
         {/* Complain List Page */}
        <Route path="/complain-list" element={<Complainlist />} />
