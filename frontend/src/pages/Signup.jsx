@@ -1,3 +1,4 @@
+// updated component of the signup 
 import React from "react";
 
 const Signup = () => {

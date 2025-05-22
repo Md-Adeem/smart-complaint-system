@@ -1,4 +1,4 @@
-
+// File: frontend/src/App.jsx
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
@@ -7,7 +7,7 @@ import Landingpage from './pages/Landingpage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Complainlist from './pages/Complainlist';
-import AdminDashboard from './pages/admindashboard';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 function App() {
   return (
