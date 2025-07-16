@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 app.use(cors({
-  origin: ["http://localhost:5173","https://localhost:5174"], // frontend origin
+  origin: ["http://localhost:5173","https://localhost:5174","https://smart-complaint-system.vercel.app"], // frontend origin
   credentials: true
 }));
 
