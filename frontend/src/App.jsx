@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 
 // Auth & Landing
 import Home from "./components/Landing/Home";
+import AboutUs from "./components/Landing/AboutUs";
 import LoginForm from "./components/Auth/LoginForm";
 import SignUp from "./components/Auth/SignUp";
 
@@ -27,6 +28,8 @@ import FilterComplaints from "./components/Admin/Filter/FilterComplaints";
 import NotificationCenter from "./components/Admin/Filter/NotificationCenter";
 import SearchResults from "./components/Admin/Filter/SearchResults";
 import Protected from "./components/Protected";
+import NewComplaint from "./components/Student/Complaints/NewComplaint";
+import StudentDashboard from "./components/Student/Student Page/StudentDashboard";
 
 function App() {
   return (
@@ -41,6 +44,12 @@ function App() {
         {/* Auth */}
         <Route path="/loginform" element={<LoginForm />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/about" element={<AboutUs />} />
+
+
+        <Route path="/studentdashboard" element={<StudentDashboard/>} />
+
+        <Route path="/student/new-complaint" element={<NewComplaint />} />
 
 
         
@@ -60,6 +69,8 @@ function App() {
           <Route path="/admin/notifications" element={<NotificationCenter />} />
         </Route>
       </Routes>
+
+
 
       <Footer />
     </>
