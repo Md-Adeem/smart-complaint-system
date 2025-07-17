@@ -131,9 +131,11 @@ authRouter.post("/login", async (req, res) => {
     });
 
     res.cookie("token", token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 8 * 3600000),
-    });
+  httpOnly: true,
+  secure: true,        // ✅ required for HTTPS + cross-origin
+  sameSite: "None",    // ✅ required for cross-site cookies
+  expires: new Date(Date.now() + 8 * 3600000),
+});
 
     res.status(200).json(user);
 
