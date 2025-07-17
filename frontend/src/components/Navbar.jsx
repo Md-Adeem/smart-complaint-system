@@ -94,7 +94,7 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-200 group"
                 >
-                  {user.photoUrl ? (
+                  {/* {user.photoUrl ? (
                     <img
                       src={user.photoUrl}
                       alt="User"
@@ -104,7 +104,7 @@ const Navbar = () => {
                     <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                       {user.firstName?.[0]?.toUpperCase() || "U"}
                     </div>
-                  )}
+                  )} */}
                   <div className="hidden sm:block text-left">
                     <p className="text-sm font-semibold text-white">
                       {user.firstName}

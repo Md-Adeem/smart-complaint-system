@@ -18,6 +18,7 @@ import axiosInstance from '../../../api/axiosInstance';
 
 const StudentDashboard = () => {
   const user = useSelector((store) => store.user)
+  // console.log(user)
   const navigate = useNavigate();
   const [complaints, setComplaints] = useState([]);
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -32,7 +33,6 @@ const StudentDashboard = () => {
           withCredentials: true
         });
         setComplaints(res.data.complaints);
-        console.log(res)
       } catch (error) {
         console.error("Error fetching complaints", error);
       }
@@ -59,6 +59,10 @@ const StudentDashboard = () => {
   const handleNewComplaint = () => {
     navigate('/student/new-complaint');
   };
+    if (!user) {
+    // Redirect or show nothing or navigate to login
+    return null; // or return <Navigate to="/login" /> if you're using React Router
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4 flex flex-col items-center">
@@ -66,13 +70,13 @@ const StudentDashboard = () => {
         {/* Modern Compact Header */}
         <div className="flex flex-col sm:flex-row items-center justify-between bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-6 shadow-lg mb-6">
           <div className="flex items-center gap-4 w-full sm:w-auto">
-            {user.photoUrl ? (
+            {/* {user.photoUrl ? (
               <img src={user.photoUrl} alt="User" className="w-14 h-14 rounded-full object-cover border-2 border-white shadow" />
             ) : (
               <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-3xl">
                 <FaUserCircle />
               </div>
-            )}
+            )} */}
             <div>
               <h1 className="text-2xl md:text-3xl font-bold mb-1">Welcome back, {user.firstName || 'Student'}!</h1>
               <p className="text-sm md:text-base text-blue-100">Track and manage your complaints with ease. Your voice matters!</p>
