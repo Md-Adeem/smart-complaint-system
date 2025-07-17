@@ -1,9 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaUser, FaSignOutAlt, FaHome, FaInfoCircle, FaChevronDown, FaUserCog } from "react-icons/fa";
+import {
+  FaUser,
+  FaSignOutAlt,
+  FaHome,
+  FaInfoCircle,
+  FaChevronDown,
+  FaUserCog,
+} from "react-icons/fa";
 import { useState } from "react";
-import axiosInstance from "../api/axiosInstance";
 import { removeUser } from "../utils/UserSlice";
+// import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
@@ -14,7 +22,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post("/logout", {}, { withCredentials: true });
+      await axiosInstance.post("/logout", {});
       dispatch(removeUser());
       navigate("/", { replace: true });
     } catch (error) {
@@ -43,21 +51,19 @@ const Navbar = () => {
               🛠️
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold text-white">
-                Smart Complaint
-              </h1>
+              <h1 className="text-xl font-bold text-white">Smart Complaint</h1>
               <p className="text-xs text-indigo-100 -mt-1">Management System</p>
             </div>
           </Link>
 
-                    {/* Navigation Links - Hidden on mobile when logged in */}
+          {/* Navigation Links - Hidden on mobile when logged in */}
           {!user && (
             <div className="hidden md:flex items-center gap-6">
               <Link
                 to="/"
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-white/10 ${
-                  isActiveRoute("/") 
-                    ? "text-white bg-white/20" 
+                  isActiveRoute("/")
+                    ? "text-white bg-white/20"
                     : "text-indigo-100 hover:text-white"
                 }`}
               >
@@ -68,8 +74,8 @@ const Navbar = () => {
               <Link
                 to="/about"
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-white/10 ${
-                  isActiveRoute("/about") 
-                    ? "text-white bg-white/20" 
+                  isActiveRoute("/about")
+                    ? "text-white bg-white/20"
                     : "text-indigo-100 hover:text-white"
                 }`}
               >
@@ -107,7 +113,11 @@ const Navbar = () => {
                       {user.role === "admin" ? "Administrator" : "Student"}
                     </p>
                   </div>
-                  <FaChevronDown className={`text-xs text-indigo-100 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
+                  <FaChevronDown
+                    className={`text-xs text-indigo-100 transition-transform duration-200 ${
+                      isProfileOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
 
                 {/* Profile Dropdown */}
@@ -117,21 +127,23 @@ const Navbar = () => {
                       <p className="text-sm font-semibold text-gray-800">
                         {user.firstName} {user.lastName}
                       </p>
-                      <p className="text-xs text-gray-500">
-                        {user.email}
-                      </p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
                     </div>
-                    
+
                     <div className="py-1">
                       <Link
-                        to={user.role === "admin" ? "/adminDashboard" : "/studentdashboard"}
+                        to={
+                          user.role === "admin"
+                            ? "/adminDashboard"
+                            : "/studentdashboard"
+                        }
                         className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
                         onClick={() => setIsProfileOpen(false)}
                       >
                         <FaUserCog className="text-gray-400" />
                         Dashboard
                       </Link>
-                      
+
                       {user.role === "student" && (
                         <Link
                           to="/student/new-complaint"
@@ -143,7 +155,7 @@ const Navbar = () => {
                         </Link>
                       )}
                     </div>
-                    
+
                     <div className="border-t border-gray-100 pt-1">
                       <button
                         onClick={() => {
@@ -187,9 +199,14 @@ const Navbar = () => {
           <div className="max-w-7xl mx-auto px-4 py-2">
             <div className="flex items-center justify-around">
               <Link
-                to={user.role === "admin" ? "/adminDashboard" : "/studentdashboard"}
+                to={
+                  user.role === "admin"
+                    ? "/adminDashboard"
+                    : "/studentdashboard"
+                }
                 className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
-                  isActiveRoute("/adminDashboard") || isActiveRoute("/studentdashboard")
+                  isActiveRoute("/adminDashboard") ||
+                  isActiveRoute("/studentdashboard")
                     ? "text-white bg-white/20"
                     : "text-indigo-100 hover:text-white hover:bg-white/10"
                 }`}
@@ -197,7 +214,7 @@ const Navbar = () => {
                 <FaHome className="text-sm" />
                 <span className="text-xs font-medium">Dashboard</span>
               </Link>
-              
+
               {user.role === "student" && (
                 <Link
                   to="/student/new-complaint"

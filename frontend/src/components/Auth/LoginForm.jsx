@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axiosInstance from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../utils/UserSlice";
 import { useDispatch } from "react-redux";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+// import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:8000/login", {
+      const res = await axiosInstance.post("/login", {
         emailId: username,
         password: password,
       }, { withCredentials: true });

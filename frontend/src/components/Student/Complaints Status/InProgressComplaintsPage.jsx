@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../../api/axiosInstance';
 
 const InProgressComplaintsPage = () => {
   const [inProgressComplaints, setInProgressComplaints] = useState([]);
@@ -7,7 +7,7 @@ const InProgressComplaintsPage = () => {
   useEffect(() => {
     const fetchInProgressComplaints = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/complaints', {
+        const res = await axiosInstance.get('/complaints', {
           withCredentials: true,
         });
 

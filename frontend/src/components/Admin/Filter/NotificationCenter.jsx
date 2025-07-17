@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaBell, FaTimesCircle, FaCheckCircle, FaClock, FaSpinner } from "react-icons/fa";
-import axios from "axios";
+import axiosInstance from "../../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const statusIcons = {
@@ -19,7 +19,7 @@ const NotificationCenter = () => {
   // Fetch recent complaints/notifications
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get("/complaints/recent");
+      const res = await axiosInstance.get("/complaints");
       if (res.data.success) {
         setNotifications(res.data.complaints);
       }

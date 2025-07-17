@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaFileAlt, FaTag, FaEdit, FaImage, FaPaperPlane, FaArrowLeft, FaSpinner } from 'react-icons/fa';
-import axios from 'axios';
+import axiosInstance from '../../../api/axiosInstance';
 
 const NewComplaint = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const NewComplaint = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:8000/complaints", {
+      const res = await axiosInstance.post("/complaints", {
         title: complaint.title,
         category: complaint.category,
         description: complaint.description

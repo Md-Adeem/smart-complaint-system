@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import StatsCard from './StatsCard';
 import TabFilter from './TabFilter';
 import ComplaintsSummary from '../Complaints/ComplaintsSummary';
@@ -11,38 +11,44 @@ import ResolvedComplaintsPage from '../Complaints Status/ResolvedComplaintsPage'
 import RejectedComplaintsPage from '../Complaints Status/RejectedComplaintsPage';
 import { useNavigate } from 'react-router-dom';
 import { FaUserCircle, FaPlus } from 'react-icons/fa';
+// import axiosInstance from '../../../api/axiosInstance';
+// import axios from 'axios';
+import { useSelector } from 'react-redux';
+import axiosInstance from '../../../api/axiosInstance';
 
 const StudentDashboard = () => {
+  const user = useSelector((store) => store.user)
   const navigate = useNavigate();
   const [complaints, setComplaints] = useState([]);
   const [activeTab, setActiveTab] = useState('Dashboard');
-  const [user, setUser] = useState({ firstName: 'Student', photoUrl: '' });
+  // const [user, setUser] = useState({ firstName: 'Student', photoUrl: '' });
 
   useEffect(() => {
+    
+    
     const fetchComplaints = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/complaints", {
+        const res = await axiosInstance.get("/complaints", {
           withCredentials: true
         });
         setComplaints(res.data.complaints);
+        console.log(res)
       } catch (error) {
         console.error("Error fetching complaints", error);
       }
     };
 
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get("http://localhost:8000/user/me", {
-          withCredentials: true
-        });
-        setUser(res.data);
-      } catch (error) {
-        console.error("Error fetching user", error);
-      }
-    };
+    // const fetchUser = async () => {
+    //   try {
+    //     const res = await axiosInstance.get("/user/me");
+    //     setUser(res.data);
+    //   } catch (error) {
+    //     console.error("Error fetching user", error);
+    //   }
+    // };
 
     fetchComplaints();
-    fetchUser();
+    // fetchUser();
   }, []);
 
   const total = complaints.length;
