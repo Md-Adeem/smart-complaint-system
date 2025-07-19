@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaEnvelope, FaLock, FaShieldAlt, FaGraduationCap, FaBuilding } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaShieldAlt, FaGraduationCap, FaBuilding, FaExclamationTriangle } from "react-icons/fa";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -21,16 +22,57 @@ const Signup = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
 
+  // Email validation function
+  const validateEmail = (email) => {
+    const validDomains = ['@student.iul.ac.in', '@iul.ac.in'];
+    const emailLower = email.toLowerCase();
+    
+    // Check if email ends with any valid domain
+    const isValidDomain = validDomains.some(domain => emailLower.endsWith(domain));
+    
+    if (!isValidDomain) {
+      return {
+        isValid: false,
+        message: "Please use your college email id "
+      };
+    }
+    
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return {
+        isValid: false,
+        message: "Please enter a valid email address"
+      };
+    }
+    
+    return { isValid: true, message: "" };
+  };
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
+    
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
+
+    // Clear email error when user starts typing
+    if (name === "emailId") {
+      setEmailError("");
+    }
   };
 
   const sendOtp = async () => {
     if (!formData.emailId) {
       alert("Please enter your email address first.");
+      return;
+    }
+
+    // Validate email before sending OTP
+    const emailValidation = validateEmail(formData.emailId);
+    if (!emailValidation.isValid) {
+      setEmailError(emailValidation.message);
       return;
     }
 
@@ -113,6 +155,12 @@ const Signup = () => {
 
   const nextStep = () => {
     if (currentStep === 1 && formData.firstName && formData.lastName && formData.emailId) {
+      // Validate email before proceeding
+      const emailValidation = validateEmail(formData.emailId);
+      if (!emailValidation.isValid) {
+        setEmailError(emailValidation.message);
+        return;
+      }
       setCurrentStep(2);
     }
   };
@@ -211,19 +259,32 @@ const Signup = () => {
                   <input
                     type="email"
                     name="emailId"
-                    placeholder="Enter your email address"
+                    placeholder="Enter your college email address"
                     value={formData.emailId}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                      emailError ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                    }`}
                     required
                   />
+                  {emailError && (
+                    <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
+                      <FaExclamationTriangle className="text-red-500" />
+                      <span>{emailError}</span>
+                    </div>
+                  )}
+                  {/* <div className="mt-2 text-xs text-gray-500">
+                    <p>✓ Use your college email address</p>
+                    <p>✓ Students: @student.iul.ac.in</p>
+                    <p>✓ Faculty: @iul.ac.in</p>
+                  </div> */}
                 </div>
 
                 <div className="flex justify-end">
                   <button
                     type="button"
                     onClick={nextStep}
-                    disabled={!formData.firstName || !formData.lastName || !formData.emailId}
+                    disabled={!formData.firstName || !formData.lastName || !formData.emailId || emailError}
                     className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all font-medium"
                   >
                     Next Step

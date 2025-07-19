@@ -173,13 +173,13 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center gap-3">
-                <Link to="/LoginForm">
+                <Link to="/loginform">
                   <button className="flex items-center gap-2 px-4 py-2 bg-white text-indigo-600 font-medium rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
                     <FaUser className="text-sm" />
                     <span className="hidden sm:inline">Login</span>
                   </button>
                 </Link>
-                {location.pathname !== "/LoginForm" && (
+                {location.pathname !== "/loginform" && (
                   <Link to="/signup">
                     <button className="flex items-center gap-2 px-4 py-2 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-200 transform hover:-translate-y-0.5">
                       <span className="hidden sm:inline">Sign Up</span>

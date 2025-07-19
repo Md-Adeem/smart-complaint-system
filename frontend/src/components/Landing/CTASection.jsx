@@ -63,7 +63,7 @@ const CTASection = () => {
             </button>
           </Link>
 
-          <Link to="/login">
+          <Link to="/loginform">
             <button className="group flex items-center justify-center gap-2 bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-20 text-white font-semibold px-6 py-3 rounded-xl hover:bg-opacity-20 transition-all duration-300 min-w-[180px]">
               Sign In
               <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
