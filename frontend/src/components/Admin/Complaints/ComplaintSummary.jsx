@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../api/axiosInstance";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { truncateTitle, truncateDescription, formatDate } from "../../../utils/textUtils";
 
 const ComplaintSummary = () => {
   const [summary, setSummary] = useState(null);
@@ -81,11 +82,11 @@ const ComplaintSummary = () => {
         {summary.latest && (
           <div className="bg-emerald-50 border border-emerald-200 p-5 rounded-lg shadow-sm text-center">
             <p className="text-sm font-medium text-emerald-700">Latest Complaint</p>
-            <p className="text-base font-semibold text-emerald-900 mt-1">
-              {summary.latest.title}
+            <p className="text-base font-semibold text-emerald-900 mt-1" title={summary.latest.title}>
+              {truncateTitle(summary.latest.title, 30)}
             </p>
             <p className="text-xs text-emerald-600 mt-1">
-              {new Date(summary.latest.createdAt).toLocaleString()}
+              {formatDate(summary.latest.createdAt)}
             </p>
           </div>
         )}
@@ -110,11 +111,15 @@ const ComplaintSummary = () => {
                 <div className="mt-3 text-sm text-gray-600 space-y-2 max-h-64 overflow-y-auto">
                   {filteredComplaints.map((c) => (
                     <div key={c._id} className="bg-white p-3 rounded-md border shadow-sm">
-                      <p className="font-semibold text-gray-800">{c.title}</p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(c.createdAt).toLocaleString()}
+                      <p className="font-semibold text-gray-800" title={c.title}>
+                        {truncateTitle(c.title, 40)}
                       </p>
-                      <p className="text-sm text-gray-700 mt-1">{c.description}</p>
+                      <p className="text-xs text-gray-500">
+                        {formatDate(c.createdAt)}
+                      </p>
+                      <p className="text-sm text-gray-700 mt-1 line-clamp-2" title={c.description}>
+                        {truncateDescription(c.description, 80)}
+                      </p>
                     </div>
                   ))}
                 </div>

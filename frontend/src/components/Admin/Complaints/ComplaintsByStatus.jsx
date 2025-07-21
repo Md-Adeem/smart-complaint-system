@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
+import { truncateTitle, truncateDescription, formatDate } from "../../../utils/textUtils";
 
 const ComplaintsByStatus = () => {
   const { status } = useParams();
@@ -21,6 +22,7 @@ const ComplaintsByStatus = () => {
         if (data.length === 0) setError("No complaints found.");
         else setComplaints(data);
       } catch (err) {
+        console.log(err);
         setError("Failed to fetch complaints.");
       } finally {
         setLoading(false);
@@ -36,20 +38,29 @@ const ComplaintsByStatus = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-6">Complaints - {status}</h2>
-      <ul className="space-y-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {complaints.map((c) => (
-          <li key={c._id} className="border rounded p-4 shadow bg-white">
-            <h3 className="font-bold text-lg">{c.title}</h3>
-            <p className="text-sm text-gray-700"><strong>Status:</strong> {c.status}</p>
+          <div key={c._id} className="bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-md transition-shadow">
+            <h3 className="font-bold text-lg text-gray-800 mb-3" title={c.title}>
+              {truncateTitle(c.title, 50)}
+            </h3>
+            <p className="text-sm text-gray-700 mb-2">
+              <strong>Status:</strong> <span className="font-medium">{c.status}</span>
+            </p>
             {c.reason && (
-              <p className="italic text-gray-600 mt-2">
-                <strong>Admin's Reason:</strong> {c.reason}
+              <p className="text-sm text-gray-600 mb-3 line-clamp-2" title={c.reason}>
+                <strong>Admin's Reason:</strong> {truncateDescription(c.reason, 100)}
               </p>
             )}
-            <p className="mt-2 text-gray-800">{c.description || "No detailed description."}</p>
-          </li>
+            <p className="text-sm text-gray-800 mb-3 line-clamp-3" title={c.description}>
+              {truncateDescription(c.description || "No detailed description.", 120)}
+            </p>
+            <div className="text-xs text-gray-500">
+              {formatDate(c.createdAt)}
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

@@ -56,7 +56,7 @@ const HowItWorksSection = () => (
       <div className="relative">
         {/* Connection Line */}
         <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-green-200 via-purple-200 to-indigo-200 transform -translate-y-1/2 z-0"></div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
           {steps.map((step, idx) => {
             const IconComponent = step.icon;
@@ -66,8 +66,8 @@ const HowItWorksSection = () => (
                   {/* Step Number */}
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                     <div className="w-6 h-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg">
-                      {idx + 1}
-                    </div>
+              {idx + 1}
+            </div>
                   </div>
 
                   {/* Icon */}
@@ -78,8 +78,8 @@ const HowItWorksSection = () => (
                   {/* Content */}
                   <div className="text-center">
                     <h3 className="text-lg font-bold text-gray-800 mb-3">
-                      {step.title}
-                    </h3>
+              {step.title}
+            </h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
                       {step.desc}
                     </p>
@@ -103,7 +103,7 @@ const HowItWorksSection = () => (
               </div>
             );
           })}
-        </div>
+          </div>
       </div>
 
 

@@ -1,7 +1,7 @@
 import HeroSection from "./HeroSection";
 import FeaturesSection from "./FeaturesSection";
 import HowItWorksSection from "./HowItWorksSection";
-import TestimonialSection from "./TestimonialSection";
+import StudentTestimonials from "./StudentTestimonials";
 import CTASection from "./CTASection";
 
 const Home = () => {
@@ -10,9 +10,8 @@ const Home = () => {
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
-      <TestimonialSection />
+      <StudentTestimonials />
       <CTASection />
-      
     </div>
   );
 };

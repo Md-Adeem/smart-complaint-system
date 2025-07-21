@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaShieldAlt, FaGraduationCap, FaBuilding, FaExclamationTriangle } from "react-icons/fa";
 
 const Signup = () => {
@@ -119,7 +119,7 @@ const Signup = () => {
       if (error.response?.data?.error) {
         alert(`Error: ${error.response.data.error}`);
       } else {
-        alert("Invalid or expired OTP.");
+      alert("Invalid or expired OTP.");
       }
     } finally {
       setLoading(false);
@@ -218,55 +218,55 @@ const Signup = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
+        <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       <FaUser className="inline mr-2" />
-                      First Name
+                      First Name <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="text"
-                      name="firstName"
+          <input
+            type="text"
+            name="firstName"
                       placeholder="Enter your first name"
-                      value={formData.firstName}
-                      onChange={handleChange}
+            value={formData.firstName}
+            onChange={handleChange}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      required
-                    />
-                  </div>
+            required
+          />
+        </div>
 
-                  <div>
+        <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       <FaUser className="inline mr-2" />
-                      Last Name
+                      Last Name <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      placeholder="Enter your last name"
-                      value={formData.lastName}
-                      onChange={handleChange}
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Enter your last name"
+            value={formData.lastName}
+            onChange={handleChange}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      required
-                    />
+            required
+          />
                   </div>
-                </div>
+        </div>
 
-                <div>
+        <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     <FaEnvelope className="inline mr-2" />
-                    Email Address
+                    Email Address <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="email"
-                    name="emailId"
+          <input
+            type="email"
+            name="emailId"
                     placeholder="Enter your college email address"
-                    value={formData.emailId}
-                    onChange={handleChange}
+            value={formData.emailId}
+            onChange={handleChange}
                     className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                       emailError ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
                     }`}
-                    required
-                  />
+            required
+          />
                   {emailError && (
                     <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
                       <FaExclamationTriangle className="text-red-500" />
@@ -308,17 +308,17 @@ const Signup = () => {
                       <h3 className="font-semibold text-blue-800">Check Your Email</h3>
                       <p className="text-blue-600 text-sm">{formData.emailId}</p>
                     </div>
-                  </div>
-                  
-                  {!otpSent ? (
-                    <button
-                      type="button"
-                      onClick={sendOtp}
+        </div>
+
+        {!otpSent ? (
+          <button
+            type="button"
+            onClick={sendOtp}
                       disabled={loading}
                       className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-all font-medium"
-                    >
+          >
                       {loading ? "Sending..." : "Send Verification Code"}
-                    </button>
+          </button>
                   ) : (
                     <div className="space-y-4">
                       <div>
@@ -326,21 +326,21 @@ const Signup = () => {
                           <FaShieldAlt className="inline mr-2" />
                           Enter Verification Code
                         </label>
-                        <input
-                          type="text"
+            <input
+              type="text"
                           placeholder="Enter 6-digit code"
-                          value={otp}
-                          onChange={(e) => setOtp(e.target.value)}
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
                           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-center text-lg tracking-widest"
                           maxLength="6"
-                          required
-                        />
+              required
+            />
                       </div>
                       
                       <div className="flex gap-3">
-                        <button
-                          type="button"
-                          onClick={verifyOtp}
+            <button
+              type="button"
+              onClick={verifyOtp}
                           disabled={loading || !otp}
                           className="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 disabled:bg-gray-400 transition-all font-medium"
                         >
@@ -376,7 +376,7 @@ const Signup = () => {
                       className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium"
                     >
                       Continue
-                    </button>
+            </button>
                   )}
                 </div>
               </div>
@@ -400,65 +400,65 @@ const Signup = () => {
                   </div>
                 </div>
 
-                <div>
+        <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     <FaLock className="inline mr-2" />
-                    Password
+                    Password <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="password"
-                    name="password"
+          <input
+            type="password"
+            name="password"
                     placeholder="Create a strong password"
-                    value={formData.password}
-                    onChange={handleChange}
+            value={formData.password}
+            onChange={handleChange}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    required
-                  />
-                </div>
+            required
+          />
+        </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
+        <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       <FaShieldAlt className="inline mr-2" />
-                      Role
+                      Role <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      name="role"
-                      value={formData.role}
-                      onChange={handleChange}
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      required
-                    >
+            required
+          >
                       <option value="">Select your role</option>
-                      <option value="student">Student</option>
-                      <option value="faculty">Faculty</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
                       {/* <option value="admin">Admin</option> */}
-                    </select>
-                  </div>
+          </select>
+        </div>
 
-                  <div>
+        <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       <FaBuilding className="inline mr-2" />
-                      Department
+                      Department <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      name="department"
-                      value={formData.department}
-                      onChange={handleChange}
+          <select
+            name="department"
+            value={formData.department}
+            onChange={handleChange}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      required
-                    >
+            required
+          >
                       <option value="">Select department</option>
-                      <option value="bca">BCA</option>
-                      <option value="btech-cse">CSE</option>
-                      <option value="btech-dsai">B.Tech DSAI</option>
-                      <option value="btech-cloud">B.Tech Cloud Application</option>
-                      <option value="btech-ai">B.Tech AI</option>
-                      <option value="mca">MCA</option>
-                      <option value="mtech">M.Tech</option>
-                    </select>
+            <option value="bca">BCA</option>
+            <option value="btech-cse">CSE</option>
+            <option value="btech-dsai">B.Tech DSAI</option>
+            <option value="btech-cloud">B.Tech Cloud Application</option>
+            <option value="btech-ai">B.Tech AI</option>
+            <option value="mca">MCA</option>
+            <option value="mtech">M.Tech</option>
+          </select>
                   </div>
-                </div>
+        </div>
 
                 <div className="flex justify-between">
                   <button
@@ -467,8 +467,8 @@ const Signup = () => {
                     className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
                   >
                     Back
-                  </button>
-                  
+        </button>
+
                   <button
                     type="submit"
                     disabled={loading || !formData.password || !formData.role || !formData.department}
@@ -484,11 +484,11 @@ const Signup = () => {
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-gray-600">
-              Already have an account?{" "}
-              <a href="/loginform" className="text-blue-600 font-semibold hover:underline transition-all">
+          Already have an account?{" "}
+              <Link to="/loginform" className="text-blue-600 font-semibold hover:underline transition-all">
                 Sign In
-              </a>
-            </p>
+              </Link>
+        </p>
           </div>
         </div>
       </div>

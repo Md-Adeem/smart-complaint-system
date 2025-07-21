@@ -8,7 +8,7 @@ import {
   FaChevronDown,
   FaUserCog,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { removeUser } from "../utils/UserSlice";
 // import axios from "axios";
 import axiosInstance from "../api/axiosInstance";
@@ -19,6 +19,39 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape') {
+        setIsProfileOpen(false);
+      }
+    };
+
+    // Add event listener if dropdown is open
+    if (isProfileOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isProfileOpen]);
+
+  // Close dropdown when route changes
+  useEffect(() => {
+    setIsProfileOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     try {
@@ -28,6 +61,10 @@ const Navbar = () => {
     } catch (error) {
       console.error("Logout failed:", error);
     }
+  };
+
+  const closeDropdown = () => {
+    setIsProfileOpen(false);
   };
 
   // const scrollToSection = (sectionId) => {
@@ -88,7 +125,7 @@ const Navbar = () => {
           {/* User Section */}
           <div className="flex items-center gap-3">
             {user ? (
-              <div className="relative">
+              <div className="relative" ref={dropdownRef}>
                 {/* User Profile Button */}
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -138,7 +175,7 @@ const Navbar = () => {
                             : "/studentdashboard"
                         }
                         className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
-                        onClick={() => setIsProfileOpen(false)}
+                        onClick={closeDropdown}
                       >
                         <FaUserCog className="text-gray-400" />
                         Dashboard
@@ -148,7 +185,7 @@ const Navbar = () => {
                         <Link
                           to="/student/new-complaint"
                           className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
-                          onClick={() => setIsProfileOpen(false)}
+                          onClick={closeDropdown}
                         >
                           <FaUser className="text-gray-400" />
                           New Complaint
@@ -160,7 +197,7 @@ const Navbar = () => {
                       <button
                         onClick={() => {
                           handleLogout();
-                          setIsProfileOpen(false);
+                          closeDropdown();
                         }}
                         className="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150"
                       >
@@ -173,15 +210,28 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center gap-3">
-                <Link to="/loginform">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-white text-indigo-600 font-medium rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
-                    <FaUser className="text-sm" />
-                    <span className="hidden sm:inline">Login</span>
-                  </button>
-                </Link>
+                {/* Show Login button when NOT on login page */}
                 {location.pathname !== "/loginform" && (
+                  <Link to="/loginform">
+                    <button className={`flex items-center gap-2 px-4 py-2 font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 ${
+                      location.pathname === "/signup" 
+                        ? "bg-indigo-600 text-white hover:bg-indigo-700" 
+                        : "bg-white text-indigo-600 hover:bg-gray-50"
+                    }`}>
+                      <FaUser className="text-sm" />
+                      <span className="hidden sm:inline">Login</span>
+                    </button>
+                  </Link>
+                )}
+                
+                {/* Show Sign Up button when NOT on signup page */}
+                {location.pathname !== "/signup" && (
                   <Link to="/signup">
-                    <button className="flex items-center gap-2 px-4 py-2 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-200 transform hover:-translate-y-0.5">
+                    <button className={`flex items-center gap-2 px-4 py-2 font-medium rounded-lg transition-all duration-200 transform hover:-translate-y-0.5 ${
+                      location.pathname === "/loginform"
+                        ? "bg-white text-indigo-600 hover:bg-gray-50 shadow-sm hover:shadow-md"
+                        : "border border-white/30 text-white hover:bg-white/10"
+                    }`}>
                       <span className="hidden sm:inline">Sign Up</span>
                       <span className="sm:hidden">Sign Up</span>
                     </button>

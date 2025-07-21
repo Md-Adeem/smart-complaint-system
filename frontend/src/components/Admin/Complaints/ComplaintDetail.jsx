@@ -19,6 +19,7 @@ const ComplaintDetail = () => {
           setError("Complaint not found");
         }
       } catch (err) {
+        console.error(err);
         setError("Error fetching complaint");
       } finally {
         setLoading(false);

@@ -12,7 +12,7 @@ const AdminStatsGraph = ({ complaints }) => {
   };
 
   complaints.forEach((complaint) => {
-    if (statusCounts.hasOwnProperty(complaint.status)) {
+    if (complaint.status && Object.prototype.hasOwnProperty.call(statusCounts, complaint.status)) {
       statusCounts[complaint.status]++;
     }
   });

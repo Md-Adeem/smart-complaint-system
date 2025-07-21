@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { truncateTitle, truncateDescription, formatDate, getStatusColor } from "../../../utils/textUtils";
 
 const FilteredComplaints = () => {
   const { status } = useParams();
@@ -21,6 +22,7 @@ const FilteredComplaints = () => {
           setError("Failed to fetch complaints.");
         }
       } catch (err) {
+        console.log(err);
         setError("Error fetching complaints.");
       } finally {
         setLoading(false);
@@ -28,14 +30,6 @@ const FilteredComplaints = () => {
     };
     fetchComplaints();
   }, [status]);
-
-  const statusColors = {
-    pending: "bg-yellow-100 text-yellow-800",
-    resolved: "bg-green-100 text-green-800",
-    rejected: "bg-red-100 text-red-800",
-    "in progress": "bg-blue-100 text-blue-800",
-    success: "bg-emerald-100 text-emerald-800",
-  };
 
   return (
     <div className="p-6 md:p-10 bg-gradient-to-br from-gray-100 to-white min-h-screen">
@@ -48,7 +42,7 @@ const FilteredComplaints = () => {
         </button>
         <h2 className="text-2xl font-bold text-gray-800 capitalize">
           Complaints -{" "}
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[status] || "bg-gray-200 text-gray-700"}`}>
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(status)}`}>
             {status}
           </span>
         </h2>
@@ -64,17 +58,21 @@ const FilteredComplaints = () => {
               key={c._id}
               className="bg-white border border-gray-200 rounded-xl p-5 shadow hover:shadow-lg transition duration-200"
             >
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">{c.title}</h3>
-              <p className="text-sm text-gray-600 mb-3">{c.description}</p>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2" title={c.title}>
+                {truncateTitle(c.title, 45)}
+              </h3>
+              <p className="text-sm text-gray-600 mb-3 line-clamp-2" title={c.description}>
+                {truncateDescription(c.description, 100)}
+              </p>
 
               <div className="flex items-center justify-between">
                 <span
-                  className={`text-xs font-medium px-3 py-1 rounded-full ${statusColors[c.status] || "bg-gray-100 text-gray-800"}`}
+                  className={`text-xs font-medium px-3 py-1 rounded-full ${getStatusColor(c.status)}`}
                 >
                   {c.status}
                 </span>
                 <span className="text-xs text-gray-400">
-                  {new Date(c.createdAt).toLocaleString()}
+                  {formatDate(c.createdAt)}
                 </span>
               </div>
             </div>

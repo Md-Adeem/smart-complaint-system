@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { FaUser, FaFileAlt, FaCog, FaEdit, FaEye, FaTimes, FaCheck, FaClock } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { FaEdit, FaEye, FaUser, FaFileAlt, FaTimes, FaCheckCircle, FaClock, FaSpinner, FaTimesCircle } from "react-icons/fa";
 import axiosInstance from "../../../api/axiosInstance";
+import { truncateTitle, truncateDescription } from "../../../utils/textUtils";
 
-const STATUS_OPTIONS = ["Pending", "In Progress", "Resolved", "Rejected"];
+const statusIcons = {
+  Pending: <FaClock className="text-yellow-500" />,
+  "In Progress": <FaSpinner className="text-blue-500 animate-spin" />,
+  Resolved: <FaCheckCircle className="text-green-500" />,
+  Rejected: <FaTimesCircle className="text-red-500" />,
+};
+
 const statusColors = {
   Pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
   "In Progress": "bg-blue-100 text-blue-800 border-blue-200",
@@ -10,22 +17,48 @@ const statusColors = {
   Rejected: "bg-red-100 text-red-800 border-red-200",
 };
 
-const statusIcons = {
-  Pending: <FaClock className="text-yellow-600" />,
-  "In Progress": <FaCog className="text-blue-600 animate-spin" />,
-  Resolved: <FaCheck className="text-green-600" />,
-  Rejected: <FaTimes className="text-red-600" />,
-};
+const STATUS_OPTIONS = ["Pending", "In Progress", "Resolved", "Rejected"];
 
 const AdminComplaintManager = ({ onStatusUpdate }) => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [showModal, setShowModal] = useState(false);
   const [selectedComplaintId, setSelectedComplaintId] = useState(null);
   const [newStatus, setNewStatus] = useState("");
   const [reason, setReason] = useState("");
+  const modalRef = useRef(null);
+
+  // Close modal when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowModal(false);
+        setReason("");
+        setSelectedComplaintId(null);
+        setNewStatus("");
+      }
+    };
+
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape') {
+        setShowModal(false);
+        setReason("");
+        setSelectedComplaintId(null);
+        setNewStatus("");
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [showModal]);
 
   const fetchComplaints = async () => {
     try {
@@ -122,10 +155,10 @@ const AdminComplaintManager = ({ onStatusUpdate }) => {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-        <div className="overflow-x-auto">
+      <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
-              <tr>
+            <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   <div className="flex items-center gap-2">
                     <FaUser className="text-gray-400" />
@@ -144,10 +177,10 @@ const AdminComplaintManager = ({ onStatusUpdate }) => {
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Actions
                 </th>
-              </tr>
-            </thead>
+            </tr>
+          </thead>
             <tbody className="bg-white divide-y divide-gray-100">
-              {complaints.map((complaint) => (
+            {complaints.map((complaint) => (
                 <tr key={complaint._id} className="hover:bg-gray-50 transition-colors duration-200">
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="flex items-center">
@@ -163,23 +196,25 @@ const AdminComplaintManager = ({ onStatusUpdate }) => {
                         </div>
                       </div>
                     </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="text-sm text-gray-900 font-medium">{complaint.title}</div>
-                    <div className="text-xs text-gray-500 mt-1 line-clamp-2">
-                      {complaint.description?.substring(0, 80)}...
+                </td>
+                <td className="px-4 py-3">
+                    <div className="text-sm text-gray-900 font-medium" title={complaint.title}>
+                      {truncateTitle(complaint.title, 50)}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1 line-clamp-2" title={complaint.description}>
+                      {truncateDescription(complaint.description, 80)}
                     </div>
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="flex items-center gap-2">
-                      <span
+                  <span
                         className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${statusColors[complaint.status] || "bg-gray-100 text-gray-800 border-gray-200"}`}
-                      >
+                  >
                         {statusIcons[complaint.status]}
-                        {complaint.status}
-                      </span>
+                    {complaint.status}
+                  </span>
                     </div>
-                  </td>
+                </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="flex items-center gap-2">
                       <button
@@ -188,23 +223,23 @@ const AdminComplaintManager = ({ onStatusUpdate }) => {
                       >
                         <FaEye className="text-sm" />
                       </button>
-                      <select
-                        value={complaint.status}
-                        onChange={(e) => handleSelectChange(complaint._id, e.target.value)}
+                  <select
+                    value={complaint.status}
+                    onChange={(e) => handleSelectChange(complaint._id, e.target.value)}
                         className="px-2 py-1.5 border border-gray-300 rounded text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-white hover:bg-gray-50"
-                      >
-                        {STATUS_OPTIONS.map((status) => (
-                          <option key={status} value={status}>
-                            {status}
-                          </option>
-                        ))}
-                      </select>
+                  >
+                    {STATUS_OPTIONS.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         </div>
 
         {complaints.length === 0 && (
@@ -215,46 +250,46 @@ const AdminComplaintManager = ({ onStatusUpdate }) => {
         )}
       </div>
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-all duration-300">
-          <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-2xl border border-gray-200 animate-fade-in mx-4">
-            <div className="mb-4">
+     {/* Modal */}
+{showModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-all duration-300">
+          <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-2xl border border-gray-200 animate-fade-in mx-4" ref={modalRef}>
+      <div className="mb-4">
               <h3 className="text-lg font-bold text-gray-800 mb-2">Update Status</h3>
               <p className="text-sm text-gray-600">
                 Please provide a reason for changing the status to{" "}
                 <span className="font-semibold text-indigo-600">{newStatus}</span>.
-              </p>
-            </div>
+        </p>
+      </div>
 
             <div className="mb-4">
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Reason / Description
               </label>
-              <textarea
+      <textarea
                 className="w-full border border-gray-300 rounded-lg p-3 h-24 resize-none text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                placeholder="Explain your reason for the status change..."
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
+        placeholder="Explain your reason for the status change..."
+        value={reason}
+        onChange={(e) => setReason(e.target.value)}
+      />
             </div>
 
             <div className="flex justify-end gap-3">
-              <button
+        <button
                 className="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-              <button
+          onClick={() => setShowModal(false)}
+        >
+          Cancel
+        </button>
+        <button
                 className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 shadow-sm hover:shadow-md"
-                onClick={handleModalSubmit}
-              >
+          onClick={handleModalSubmit}
+        >
                 Update Status
-              </button>
-            </div>
-          </div>
-        </div>
+        </button>
+      </div>
+    </div>
+    </div>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import axiosInstance from "../../api/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { setUser } from "../../utils/UserSlice";
 import { useDispatch } from "react-redux";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
@@ -59,34 +59,34 @@ const Login = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaEnvelope className="inline mr-2" />
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="username"
+                Email Address <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            id="username"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 placeholder="Enter your email address"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
 
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaLock className="inline mr-2" />
-                Password
-              </label>
+                Password <span className="text-red-500">*</span>
+          </label>
               <div className="relative">
-                <input
+          <input
                   type={showPassword ? "text" : "password"}
-                  id="password"
+            id="password"
                   className="w-full p-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -102,18 +102,18 @@ const Login = () => {
                 <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
               </label>
-              <a href="/forgot-password" className="text-sm text-blue-600 hover:underline font-medium">
+              <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline font-medium">
                 Forgot Password?
-              </a>
-            </div>
+              </Link>
+        </div>
 
-            <button
-              type="submit"
+        <button
+          type="submit"
               disabled={loading || !username || !password}
               className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all font-medium"
-            >
+        >
               {loading ? "Signing In..." : "Sign In"}
-            </button>
+        </button>
           </form>
 
           {/* Divider */}
@@ -121,16 +121,16 @@ const Login = () => {
             <div className="flex-1 border-t border-gray-300"></div>
             <span className="px-4 text-sm text-gray-500">or</span>
             <div className="flex-1 border-t border-gray-300"></div>
-          </div>
+        </div>
 
           {/* Footer */}
           <div className="text-center">
             <p className="text-gray-600">
               Don't have an account?{" "}
-              <a href="/signup" className="text-blue-600 font-semibold hover:underline transition-all">
+              <Link to="/signup" className="text-blue-600 font-semibold hover:underline transition-all">
                 Create Account
-              </a>
-            </p>
+              </Link>
+          </p>
           </div>
         </div>
       </div>

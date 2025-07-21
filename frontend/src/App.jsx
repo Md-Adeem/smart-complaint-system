@@ -10,6 +10,7 @@ import Home from "./components/Landing/Home";
 import AboutUs from "./components/Landing/AboutUs";
 import LoginForm from "./components/Auth/LoginForm";
 import SignUp from "./components/Auth/SignUp";
+import GuestRoute from "./components/GuestRoute";
 
 // Admin Dashboard & Management
 import AdminDashboard from "./components/Admin/AdminDashboard/AdminDashboard";
@@ -41,18 +42,23 @@ function App() {
         {/* Home */}
         <Route path="/" element={<Home />} />
 
-        {/* Auth */}
-        <Route path="/loginform" element={<LoginForm />} />
-        <Route path="/signup" element={<SignUp />} />
+        {/* Auth - Protected from logged-in users */}
+        <Route path="/loginform" element={
+          <GuestRoute>
+            <LoginForm />
+          </GuestRoute>
+        } />
+        <Route path="/signup" element={
+          <GuestRoute>
+            <SignUp />
+          </GuestRoute>
+        } />
         <Route path="/about" element={<AboutUs />} />
 
-
+        {/* Student Routes */}
         <Route path="/studentdashboard" element={<StudentDashboard/>} />
-
         <Route path="/student/new-complaint" element={<NewComplaint />} />
 
-
-        
         {/* Admin Dashboard */}
         {/* Protected Admin Routes */}
         <Route element={<Protected requireAdmin={true} />}>
@@ -69,8 +75,6 @@ function App() {
           <Route path="/admin/notifications" element={<NotificationCenter />} />
         </Route>
       </Routes>
-
-
 
       <Footer />
     </>

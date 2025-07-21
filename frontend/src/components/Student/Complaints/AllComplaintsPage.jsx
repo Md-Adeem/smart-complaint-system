@@ -5,10 +5,11 @@ import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 import axiosInstance from '../../../api/axiosInstance';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { truncateTitle, truncateDescription, formatDate } from '../../../utils/textUtils';
 
 const COLORS = ['#f97316', '#ec4899', '#ef4444', '#3b82f6'];
 
-const StylishComplaintCard = ({ title, description, category, status, resolvedBy, resolutionNote }) => {
+const StylishComplaintCard = ({ title, description, category, status, resolvedBy, resolutionNote, createdAt }) => {
   const themeColors = {
     Resolved: {
       base: 'orange-500',
@@ -39,37 +40,34 @@ const StylishComplaintCard = ({ title, description, category, status, resolvedBy
   };
 
   return (
-    <div className="relative bg-white rounded-xl shadow-md border px-4 pt-16 pb-6">
+    <div className="relative bg-white rounded-xl shadow-md border px-4 pt-16 pb-6 hover:shadow-lg transition-shadow">
       {/* Avatar */}
       <div className={`absolute -top-8 left-1/2 transform -translate-x-1/2`}>
         <div className={`w-16 h-16 rounded-full bg-${color.light} ring-4 ${color.ring} flex items-center justify-center text-${color.base} text-2xl`}>
           <i className="fas fa-user" />
         </div>
-
-        {/* <div
-        className={`absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-${theme}-100 border-4 border-white shadow-md flex items-center justify-center`}
-        >
-        <i className={`fas fa-user text-${theme}-600 text-2xl`} />
-        </div> */}
-
       </div>
 
       {/* Content */}
-      <h3 className={`text-center text-lg font-semibold text-${color.base}`}>{title}</h3>
-      <p className="text-center text-sm text-gray-500 mb-2">Complaint Category: {category}</p>
-      <p className="text-sm text-gray-600 mb-2">{description}</p>
-      <p className="text-sm text-gray-700 mb-1">
+      <h3 className={`text-center text-lg font-semibold text-${color.base} mb-2`} title={title}>
+        {truncateTitle(title, 40)}
+      </h3>
+      <p className="text-center text-sm text-gray-500 mb-3">Complaint Category: {category}</p>
+      <p className="text-sm text-gray-600 mb-3 line-clamp-3 text-center" title={description}>
+        {truncateDescription(description, 100)}
+      </p>
+      <p className="text-sm text-gray-700 mb-2">
         <strong>Status:</strong> <span className={`text-${color.base} font-medium`}>{status}</span>
       </p>
 
       {resolvedBy && (
-        <p className="text-sm text-gray-700 mb-1">
+        <p className="text-sm text-gray-700 mb-2">
           <strong>Resolved By:</strong> {resolvedBy.name || 'Admin'}
         </p>
       )}
       {resolutionNote && (
-        <p className="text-sm text-gray-700">
-          <strong>Note:</strong> {resolutionNote}
+        <p className="text-sm text-gray-700 mb-3 line-clamp-2" title={resolutionNote}>
+          <strong>Note:</strong> {truncateDescription(resolutionNote, 80)}
         </p>
       )}
 
@@ -89,6 +87,8 @@ const StylishComplaintCard = ({ title, description, category, status, resolvedBy
         </div>
         <i className={`fas fa-quote-right text-${color.base}`} />
       </div>
+      {/* Created At */}
+      <p className="text-xs text-gray-400 mt-2">{formatDate(createdAt)}</p>
     </div>
   );
 };
@@ -157,6 +157,7 @@ const AllComplaintsPage = () => {
             status={c.status}
             resolvedBy={c.resolvedBy}
             resolutionNote={c.resolutionNote}
+            createdAt={c.createdAt}
           />
         ))}
       </div>

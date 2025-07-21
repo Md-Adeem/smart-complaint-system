@@ -41,6 +41,7 @@ const ComplaintsByDateList = () => {
           setError("Failed to fetch complaints.");
         }
       } catch (err) {
+        console.log(err);
         setError("Error fetching complaints.");
       } finally {
         setLoading(false);
