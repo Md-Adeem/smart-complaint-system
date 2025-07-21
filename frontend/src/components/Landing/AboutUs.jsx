@@ -9,7 +9,7 @@ const AboutUs = () => {
       description: "Leading the development of innovative complaint management solutions with expertise in modern web technologies and project coordination.",
       skills: ["React", "Node.js", "GitHub", "Project Management", "Team Leadership"],
       social: {
-        github: "#",
+        github: "https://github.com/Md-Adeem",
         linkedin: "https://www.linkedin.com/in/md-adeem/",
         email: "mdadeem14@gmail.com"
       }
@@ -21,8 +21,8 @@ const AboutUs = () => {
       description: "Expert in full-stack development and system architecture with a focus on scalable backend solutions and database design.",
       skills: ["Node.js", "MongoDB", "Express", "System Design", "API Development"],
       social: {
-        github: "#",
-        linkedin: "#",
+        github: "https://github.com/frazhaidry",
+        linkedin: "https://www.linkedin.com/in/fraz-ahmad-haidry-a9578522a/",
         email: "fraz@example.com"
       }
     },
@@ -33,8 +33,8 @@ const AboutUs = () => {
       description: "Creating intuitive and beautiful user experiences with modern design principles and responsive web development.",
       skills: ["React", "Tailwind CSS", "UI/UX", "JavaScript", "Responsive Design"],
       social: {
-        github: "#",
-        linkedin: "#",
+        github: "https://github.com/Sheikh-ASif",
+        linkedin: "https://www.linkedin.com/in/md-asif-sheikh-74b3b52b8/",
         email: "asif@example.com"
       }
     },
@@ -45,8 +45,8 @@ const AboutUs = () => {
       description: "Building robust and scalable frontend systems with attention to performance optimization and code quality.",
       skills: ["React", "TypeScript", "Performance", "Testing", "Code Quality"],
       social: {
-        github: "#",
-        linkedin: "#",
+        github: "https://github.com/inzamam-sid",
+        linkedin: "https://www.linkedin.com/in/inzamam-siddiqui-25567828b/",
         email: "inzamam@example.com"
       }
     },
@@ -57,8 +57,8 @@ const AboutUs = () => {
       description: "Passionate about creating seamless user experiences and intuitive interface designs that enhance user engagement.",
       skills: ["UI/UX Design", "Figma", "Prototyping", "User Research", "Design Systems"],
       social: {
-        github: "#",
-        linkedin: "#",
+        github: "",
+        linkedin: "https://www.linkedin.com/in/mohammad-faraz-8755a6302/",
         email: "faraz@example.com"
       }
     }
