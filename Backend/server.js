@@ -6,6 +6,7 @@ const cors = require("cors");
 const authRouter = require("./routes/authRouter");
 const complaintRouter = require("./routes/complaintRouter");
 const profileRouter = require("./routes/profile");
+const rateLimit = require('express-rate-limit');
 
 dotenv.config();
 
@@ -20,6 +21,21 @@ app.use(cors({
   origin: ["http://localhost:5173","https://localhost:5174","https://smart-complaint-system.vercel.app"], // frontend origin
   credentials: true
 }));
+
+// Global rate limiter
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (req, res) => {
+    res.status(429).json({
+      error: 'Too many requests. Please wait before trying again.',
+      status: 429
+    });
+  }
+});
+app.use(limiter);
 
 app.use("/", authRouter); 
 app.use("/complaints", complaintRouter);

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Otp = require('../models/otp'); // ✅ NEW: OTP Model
+const OtpVerified = require('../models/otpVerified');
 const { validateSignUpData } = require('../utils/validation');
 const sendEmail = require('../utils/sendEmail');
 
@@ -50,6 +51,13 @@ authRouter.post("/verify-otp", async (req, res) => {
     if (record.otp !== otp) return res.status(400).json({ error: "Invalid OTP" });
 
     await Otp.deleteOne({ emailId }); // OTP verified, delete it
+    // Store OTP verification status for 10 minutes
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    await OtpVerified.findOneAndUpdate(
+      { emailId },
+      { emailId, expiresAt },
+      { upsert: true, new: true }
+    );
     res.status(200).json({ success: true, message: "OTP verified successfully" });
   } catch (error) {
     console.error("OTP verification error:", error);
@@ -84,6 +92,12 @@ authRouter.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    // Require OTP verification
+    const verified = await OtpVerified.findOne({ emailId, expiresAt: { $gt: new Date() } });
+    if (!verified) {
+      return res.status(400).json({ message: 'Email not verified by OTP' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
@@ -107,6 +121,8 @@ authRouter.post("/signup", async (req, res) => {
     });
 
     res.status(201).json({ message: "User added successfully", data: savedUser });
+
+    await OtpVerified.deleteOne({ emailId });
 
   } 
   catch (error) {
