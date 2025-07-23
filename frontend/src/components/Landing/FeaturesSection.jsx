@@ -70,7 +70,7 @@ const features = [
 const FeaturesSection = () => {
   return (
     <section className="py-16 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white bg-opacity-60 rounded-full text-xs font-medium backdrop-blur-sm border border-gray-200 mb-4">
@@ -95,7 +95,7 @@ const FeaturesSection = () => {
             return (
               <div
                 key={index}
-                className="group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 relative overflow-hidden"
+                className="group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 relative overflow-hidden mb-4"
               >
                 {/* Background Gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>

@@ -117,7 +117,7 @@ const AboutUs = () => {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-20 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-10 md:py-20 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-20 h-20 bg-indigo-500 rounded-full"></div>
@@ -127,10 +127,10 @@ const AboutUs = () => {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
               About <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Smart Complaint</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-base md:text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
               We're revolutionizing how educational institutions handle student feedback and complaints, 
               making the process more efficient, transparent, and student-friendly.
             </p>
@@ -153,11 +153,11 @@ const AboutUs = () => {
       </div>
 
       {/* Mission Section */}
-      <div className="py-20">
+      <div className="py-10 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
+              <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
                 To bridge the gap between students and administration by providing a modern, 
                 efficient platform that ensures every voice is heard and every concern is addressed promptly.
@@ -208,19 +208,19 @@ const AboutUs = () => {
       </div>
 
       {/* Values Section */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-10 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Core Values</h2>
+            <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">Our Core Values</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               These principles guide everything we do, from product development to customer support.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {values.map((value, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                className="bg-white rounded-2xl p-4 md:p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
               >
                 <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-6">
                   {value.icon}
@@ -234,7 +234,7 @@ const AboutUs = () => {
       </div>
 
       {/* Features Section */}
-      <div className="py-20">
+      <div className="py-10 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">What Makes Us Different</h2>
@@ -243,11 +243,11 @@ const AboutUs = () => {
               the best complaint management experience for educational institutions.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {features.map((feature, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
+                className="bg-white rounded-2xl p-4 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
               >
                 <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center text-white text-2xl mb-6`}>
                   {feature.icon}
@@ -261,20 +261,20 @@ const AboutUs = () => {
       </div>
 
       {/* Team Section */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-10 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
+            <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Our dedicated team of professionals is committed to building the best 
               complaint management system for educational institutions.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {teamMembers.map((member, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group"
+                className="bg-white rounded-2xl p-4 md:p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group"
               >
                 <div className="relative mb-6">
                   <img

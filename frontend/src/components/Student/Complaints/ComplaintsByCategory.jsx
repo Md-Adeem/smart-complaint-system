@@ -83,7 +83,7 @@ const ComplaintsByCategory = ({ complaints = [] }) => {
   };
 
   return (
-    <div className="relative bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl p-6 shadow-xl border border-gray-100 overflow-hidden">
+    <div className="relative bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full -translate-y-16 translate-x-16 opacity-50 floating-element"></div>
       
@@ -105,7 +105,7 @@ const ComplaintsByCategory = ({ complaints = [] }) => {
         {/* Chart Container */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-6">
           <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%">
               <BarChart data={categoryData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis 
@@ -126,8 +126,8 @@ const ComplaintsByCategory = ({ complaints = [] }) => {
                   shape={<CustomBar />}
                   radius={[4, 4, 0, 0]}
                 />
-              </BarChart>
-            </ResponsiveContainer>
+        </BarChart>
+      </ResponsiveContainer>
           </div>
         </div>
 

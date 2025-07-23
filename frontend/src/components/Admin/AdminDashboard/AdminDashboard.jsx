@@ -196,7 +196,7 @@ const AdminDashboard = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <NotificationCenter />
+          <NotificationCenter />
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <FaUsers className="text-gray-400" />
                 <span>{totalComplaints} total complaints</span>
@@ -218,16 +218,16 @@ const AdminDashboard = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => setShowGraph(!showGraph)}
+        <button
+          onClick={() => setShowGraph(!showGraph)}
                 className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-sm font-medium"
-              >
+        >
                 <FaChartBar className="text-sm" />
                 {showGraph ? "Hide Analytics" : "Show Analytics"}
-              </button>
+        </button>
 
-              <button
-                onClick={() => navigate("/admin/complaints/summary")}
+        <button
+          onClick={() => navigate("/admin/complaints/summary")}
                 className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors duration-200 text-sm font-medium"
               >
                 <FaClipboardList className="text-sm" />
@@ -240,7 +240,7 @@ const AdminDashboard = () => {
               >
                 <FaCalendarAlt className="text-sm" />
                 Date Filter
-              </button>
+        </button>
 
               <button className="flex items-center gap-2 px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors duration-200 text-sm font-medium">
                 <FaDownload className="text-sm" />
@@ -250,76 +250,76 @@ const AdminDashboard = () => {
 
             <div className="flex items-center gap-3">
               {/* Compact Filter */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowStatusFilter(!showStatusFilter)}
+        <div className="relative">
+          <button
+            onClick={() => setShowStatusFilter(!showStatusFilter)}
                   className="flex items-center gap-2 px-4 py-2 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100 transition-colors duration-200 text-sm font-medium"
-                >
+          >
                   <FaFilter className="text-sm" />
-                  Filter
-                </button>
+            Filter
+          </button>
 
-                {showStatusFilter && (
+          {showStatusFilter && (
                   <div className="absolute right-0 mt-2 p-4 bg-white border border-gray-200 rounded-xl shadow-lg z-10 w-64">
                     <h3 className="text-sm font-semibold text-gray-800 mb-3">Filter by Status</h3>
-                    <select
+              <select
                       className="w-full p-2 border border-gray-300 rounded-lg mb-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-                      value={selectedStatus}
-                      onChange={(e) => setSelectedStatus(e.target.value)}
-                    >
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+              >
                       <option value="">All Statuses</option>
-                      {STATUS_OPTIONS.map((status) => (
-                        <option key={status} value={status}>
-                          {status}
-                        </option>
-                      ))}
-                    </select>
+                {STATUS_OPTIONS.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
 
-                    <button
-                      onClick={handleApplyFilter}
+              <button
+                onClick={handleApplyFilter}
                       className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200 text-sm font-medium disabled:bg-gray-300"
-                      disabled={!selectedStatus}
-                    >
-                      Apply Filter
-                    </button>
-                  </div>
-                )}
-              </div>
+                disabled={!selectedStatus}
+              >
+                Apply Filter
+              </button>
+            </div>
+          )}
+        </div>
 
               {/* Compact Search */}
-              <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
                 <div className="relative">
                   <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
-                  <input
-                    type="text"
+          <input
+            type="text"
                     placeholder="Search complaints..."
                     className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg w-48 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  />
+          />
                 </div>
-                <button
-                  onClick={handleSearch}
+          <button
+            onClick={handleSearch}
                   className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 text-sm font-medium"
-                >
-                  Search
-                </button>
+          >
+            Search
+          </button>
               </div>
             </div>
-          </div>
         </div>
+      </div>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Statistics Cards */}
           <div className="lg:col-span-2">
-            {!showGraph ? (
+      {!showGraph ? (
               <div className="grid grid-cols-2 gap-4 mb-6">
-                {STATUS_OPTIONS.map((status) => (
-                  <div
-                    key={status}
-                    onClick={() => handleCardClick(status)}
+          {STATUS_OPTIONS.map((status) => (
+            <div
+              key={status}
+              onClick={() => handleCardClick(status)}
                     className="group cursor-pointer bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 overflow-hidden"
                   >
                     <div className={`bg-gradient-to-r ${cardColors[status]} p-4 text-white`}>
@@ -329,35 +329,35 @@ const AdminDashboard = () => {
                           <p className="text-2xl font-bold mt-1">{counts[status]}</p>
                         </div>
                         <div className="w-10 h-10 flex items-center justify-center bg-white bg-opacity-20 rounded-lg">
-                          {statusIcons[status]}
-                        </div>
+                  {statusIcons[status]}
+                </div>
                       </div>
                     </div>
                     <div className="p-3 bg-gray-50">
                       <div className="flex items-center justify-between text-xs text-gray-600">
                         <span>Click to view</span>
                         <FaEye className="text-gray-400 group-hover:text-gray-600 transition-colors" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                </div>
               </div>
-            ) : (
+            </div>
+          ))}
+        </div>
+      ) : (
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
                 <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                   <FaChartBar className="text-indigo-600" />
                   Complaint Analytics
-                </h2>
-                <AdminStatsGraph complaints={complaints} />
-              </div>
-            )}
+          </h2>
+          <AdminStatsGraph complaints={complaints} />
+        </div>
+      )}
 
             {/* Complaint Manager */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-              <AdminComplaintManager
-                complaints={complaints}
-                onStatusChange={handleStatusChange}
-              />
+      <AdminComplaintManager
+        complaints={complaints}
+        onStatusChange={handleStatusChange}
+      />
             </div>
           </div>
 

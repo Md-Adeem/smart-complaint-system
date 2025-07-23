@@ -7,6 +7,8 @@ import {
   FaInfoCircle,
   FaChevronDown,
   FaUserCog,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import { removeUser } from "../utils/UserSlice";
@@ -20,6 +22,7 @@ const Navbar = () => {
   const location = useLocation();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -74,16 +77,16 @@ const Navbar = () => {
   //   }
   // };
 
-  const isActiveRoute = (path) => {
-    return location.pathname === path;
-  };
+  // const isActiveRoute = (path) => {
+  //   return location.pathname === path;
+  // };
 
   return (
     <nav className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+        {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 group" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
             <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white text-lg font-bold shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
               🛠️
             </div>
@@ -91,50 +94,23 @@ const Navbar = () => {
               <h1 className="text-xl font-bold text-white">Smart Complaint</h1>
               <p className="text-xs text-indigo-100 -mt-1">Management System</p>
             </div>
-          </Link>
+        </Link>
 
-          {/* Navigation Links - Hidden on mobile when logged in */}
-          {!user && (
-            <div className="hidden md:flex items-center gap-6">
-              <Link
-                to="/"
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-white/10 ${
-                  isActiveRoute("/")
-                    ? "text-white bg-white/20"
-                    : "text-indigo-100 hover:text-white"
-                }`}
-              >
-                <FaHome className="text-sm" />
-                Home
-              </Link>
-
-              <Link
-                to="/about"
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-white/10 ${
-                  isActiveRoute("/about")
-                    ? "text-white bg-white/20"
-                    : "text-indigo-100 hover:text-white"
-                }`}
-              >
-                <FaInfoCircle className="text-sm" />
-                About Us
-              </Link>
-            </div>
-          )}
+          {/* Navigation Links removed for non-logged-in users in desktop mode as requested */}
 
           {/* User Section */}
-          <div className="flex items-center gap-3">
-            {user ? (
+          <div className="hidden md:flex items-center gap-3">
+          {user ? (
               <div className="relative" ref={dropdownRef}>
                 {/* User Profile Button */}
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-200 group"
+                  className="flex items-center gap-2 sm:gap-3 bg-white/10 backdrop-blur-sm px-2 py-1 sm:px-4 sm:py-2 rounded-xl border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-200 group"
                 >
                   {/* {user.photoUrl ? (
-                    <img
-                      src={user.photoUrl}
-                      alt="User"
+                  <img
+                    src={user.photoUrl}
+                    alt="User"
                       className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm"
                     />
                   ) : (
@@ -212,7 +188,7 @@ const Navbar = () => {
               <div className="flex items-center gap-3">
                 {/* Show Login button when NOT on login page */}
                 {location.pathname !== "/loginform" && (
-                  <Link to="/loginform">
+                  <Link to="/loginform" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
                     <button className={`flex items-center gap-2 px-4 py-2 font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 ${
                       location.pathname === "/signup" 
                         ? "bg-indigo-600 text-white hover:bg-indigo-700" 
@@ -226,7 +202,7 @@ const Navbar = () => {
                 
                 {/* Show Sign Up button when NOT on signup page */}
                 {location.pathname !== "/signup" && (
-                  <Link to="/signup">
+                  <Link to="/signup" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
                     <button className={`flex items-center gap-2 px-4 py-2 font-medium rounded-lg transition-all duration-200 transform hover:-translate-y-0.5 ${
                       location.pathname === "/loginform"
                         ? "bg-white text-indigo-600 hover:bg-gray-50 shadow-sm hover:shadow-md"
@@ -240,44 +216,99 @@ const Navbar = () => {
               </div>
             )}
           </div>
+          {/* Hamburger menu for mobile (always visible) */}
+{(
+  (user && !isMobileMenuOpen) || (!user && !isMobileMenuOpen)
+) && (
+  <button
+    className="md:hidden ml-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    onClick={() => setIsMobileMenuOpen(true)}
+    aria-label="Open menu"
+  >
+    <FaBars className="text-white text-2xl" />
+  </button>
+)}
         </div>
       </div>
 
-      {/* Mobile Navigation for logged in users */}
-      {user && (
-        <div className="md:hidden border-t border-white/20 bg-white/5">
-          <div className="max-w-7xl mx-auto px-4 py-2">
-            <div className="flex items-center justify-around">
+      {/* Mobile Drawer for logged-in users */}
+      {user && isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black bg-opacity-40 transition-opacity duration-300"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Close menu overlay"
+          ></div>
+          {/* Drawer */}
+          <div className="ml-auto w-64 max-w-full h-full bg-white shadow-xl p-6 flex flex-col gap-6 animate-slide-in-right relative">
+            <button
+              className="absolute top-4 right-4 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <FaTimes className="text-gray-700 text-2xl" />
+            </button>
+            <div className="flex flex-col gap-4 mt-8">
               <Link
-                to={
-                  user.role === "admin"
-                    ? "/adminDashboard"
-                    : "/studentdashboard"
-                }
-                className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
-                  isActiveRoute("/adminDashboard") ||
-                  isActiveRoute("/studentdashboard")
-                    ? "text-white bg-white/20"
-                    : "text-indigo-100 hover:text-white hover:bg-white/10"
-                }`}
+                to={user.role === "admin" ? "/adminDashboard" : "/studentdashboard"}
+                onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); }}
+                className="w-full px-4 py-3 text-indigo-700 font-semibold rounded-lg border border-indigo-200 hover:bg-indigo-50 text-center transition-all"
               >
-                <FaHome className="text-sm" />
-                <span className="text-xs font-medium">Dashboard</span>
+                Dashboard
               </Link>
-
               {user.role === "student" && (
                 <Link
                   to="/student/new-complaint"
-                  className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
-                    isActiveRoute("/student/new-complaint")
-                      ? "text-white bg-white/20"
-                      : "text-indigo-100 hover:text-white hover:bg-white/10"
-                  }`}
+                  onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); }}
+                  className="w-full px-4 py-3 text-indigo-700 font-semibold rounded-lg border border-indigo-200 hover:bg-indigo-50 text-center transition-all"
                 >
-                  <FaUser className="text-sm" />
-                  <span className="text-xs font-medium">New Complaint</span>
+                  Submit Complaint
                 </Link>
               )}
+              <button
+                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                className="w-full px-4 py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-center transition-all"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Mobile Drawer for non-logged-in users */}
+      {!user && isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black bg-opacity-40 transition-opacity duration-300"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Close menu overlay"
+          ></div>
+          {/* Drawer */}
+          <div className="ml-auto w-64 max-w-full h-full bg-white shadow-xl p-6 flex flex-col gap-6 animate-slide-in-right relative">
+            <button
+              className="absolute top-4 right-4 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <FaTimes className="text-gray-700 text-2xl" />
+            </button>
+            <div className="flex flex-col gap-4 mt-8">
+              <Link
+                to="/loginform"
+                onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); }}
+                className="w-full px-4 py-3 text-indigo-700 font-semibold rounded-lg border border-indigo-200 hover:bg-indigo-50 text-center transition-all"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); }}
+                className="w-full px-4 py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-center transition-all"
+              >
+                Sign Up
+              </Link>
             </div>
           </div>
         </div>

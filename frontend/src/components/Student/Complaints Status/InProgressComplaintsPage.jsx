@@ -27,7 +27,7 @@ const InProgressComplaintsPage = () => {
   }, []);
 
   return (
-    <div className="p-6 min-h-screen bg-gray-100">
+    <div className="p-4 md:p-6 min-h-screen bg-gray-100">
       <h1 className="text-3xl font-bold mb-6">In Progress Complaints</h1>
 
       {inProgressComplaints.length === 0 ? (

@@ -81,22 +81,22 @@ const SearchResults = () => {
 
       <div className="mb-6">
         <div className="flex gap-2">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Search by title, description, status, or user..."
             className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-          <button
-            onClick={handleSearch}
-            disabled={loading}
+        />
+        <button
+          onClick={handleSearch}
+          disabled={loading}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
-          >
+        >
             <FaSearch />
-            {loading ? "Searching..." : "Search"}
-          </button>
+          {loading ? "Searching..." : "Search"}
+        </button>
         </div>
       </div>
 
@@ -111,13 +111,13 @@ const SearchResults = () => {
           <p className="text-gray-600 mb-4">
             Found {results.length} complaint(s)
           </p>
-          <ul className="space-y-4">
-            {results.map((comp) => (
-              <li
-                key={comp._id}
+        <ul className="space-y-4">
+          {results.map((comp) => (
+            <li
+              key={comp._id}
                 className="p-5 bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer border border-gray-100"
-                title={`Complaint: ${comp.title}`}
-              >
+              title={`Complaint: ${comp.title}`}
+            >
                 <div className="flex justify-between items-start mb-3">
                   <h2
                     className="text-xl font-semibold text-gray-800 flex-1 mr-4"
@@ -125,14 +125,14 @@ const SearchResults = () => {
                   >
                     {truncateTitle(comp.title, 60)}
                   </h2>
-                  <span
+                <span
                     className={`capitalize inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
                       comp.status
                     )}`}
-                  >
-                    {comp.status}
-                  </span>
-                </div>
+                >
+                  {comp.status}
+                </span>
+              </div>
                 <p
                   className="text-gray-600 mb-3 line-clamp-2"
                   title={comp.description}
@@ -148,9 +148,9 @@ const SearchResults = () => {
                   </span>
                   <span>{formatDate(comp.createdAt)}</span>
                 </div>
-              </li>
-            ))}
-          </ul>
+            </li>
+          ))}
+        </ul>
         </div>
       )}
     </div>

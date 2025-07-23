@@ -65,13 +65,13 @@ const StudentDashboard = () => {
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'} p-4 flex flex-col items-center`}>
       <div className="w-full max-w-7xl">
         {/* Enhanced Header with Notifications */}
-        <div className={`flex flex-col sm:flex-row items-center justify-between ${isDarkMode ? 'bg-gray-800' : 'bg-gradient-to-r from-blue-600 to-purple-600'} text-white rounded-2xl p-6 shadow-lg mb-6`}>
+        <div className={`flex flex-col sm:flex-row items-center justify-between ${isDarkMode ? 'bg-gray-800' : 'bg-gradient-to-r from-blue-600 to-purple-600'} text-white rounded-2xl p-4 sm:p-6 shadow-lg mb-6`}>
           <div className="flex items-center gap-4 w-full sm:w-auto">
             <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-3xl">
               <FaUserCircle />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold mb-1">{greeting}</h1>
+              <h1 className="text-xl md:text-2xl font-bold mb-1">{greeting}</h1>
               <p className="text-sm md:text-base text-blue-100">{motivationalMessage}</p>
             </div>
           </div>
@@ -97,7 +97,7 @@ const StudentDashboard = () => {
         </div>
 
         {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 mb-4 md:mb-8">
           {/* Left Column - Quick Actions & Progress */}
           <div className="lg:col-span-1 space-y-6">
             <div className="dashboard-card">

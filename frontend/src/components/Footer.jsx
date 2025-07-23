@@ -42,15 +42,15 @@ const FooterSection = () => {
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" role="contentinfo">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-lg">
                 🛠️
               </div>
-              <div>
+        <div>
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                   Smart Complaint
                 </h2>
@@ -89,17 +89,18 @@ const FooterSection = () => {
                 <span>University Campus, Education District</span>
               </div>
             </div>
-          </div>
+        </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Quick Links</h3>
+        <div>
+            <h3 className="text-base md:text-lg font-semibold mb-6 text-white">Quick Links</h3>
             <nav aria-label="Footer navigation">
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.name}>
                     <Link 
                       to={link.path} 
+                      onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
                       className="text-gray-300 hover:text-indigo-400 transition-colors duration-200 flex items-center gap-2 group"
                       aria-label={`Navigate to ${link.name} page`}
                     >
@@ -108,17 +109,17 @@ const FooterSection = () => {
                     </Link>
                   </li>
                 ))}
-              </ul>
+          </ul>
             </nav>
-          </div>
+        </div>
 
           {/* Social Media */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Connect With Us</h3>
+        <div>
+            <h3 className="text-base md:text-lg font-semibold mb-6 text-white">Connect With Us</h3>
             <p className="text-gray-300 text-sm mb-4">
               Follow us on social media for updates and announcements.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center md:justify-start">
               {socialLinks.map((social) => {
                 const IconComponent = social.icon;
                 return (
@@ -142,7 +143,7 @@ const FooterSection = () => {
 
       {/* Bottom Copyright */}
       <div className="border-t border-gray-700">
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
               <p className="text-sm text-gray-400">

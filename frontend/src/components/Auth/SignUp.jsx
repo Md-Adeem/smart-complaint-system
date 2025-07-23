@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaShieldAlt, FaGraduationCap, FaBuilding, FaExclamationTriangle } from "react-icons/fa";
@@ -21,6 +21,15 @@ const Signup = () => {
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    let timer;
+    if (cooldown > 0) {
+      timer = setTimeout(() => setCooldown(cooldown - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [cooldown]);
 
   // Email validation function
   const validateEmail = (email) => {
@@ -83,6 +92,7 @@ const Signup = () => {
       });
       setOtpSent(true);
       setCurrentStep(2);
+      setCooldown(60); // Start 1-minute cooldown
     } catch (error) {
       console.error("Send OTP error:", error);
       if (error.response?.data?.error) {
@@ -169,6 +179,25 @@ const Signup = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  // Add password strength helper
+  const getPasswordStrength = (password) => {
+    let score = 0;
+    if (!password) return { score, label: "", color: "" };
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    if (password.length >= 12) score++;
+    const levels = [
+      { label: "Very Weak", color: "bg-red-400" },
+      { label: "Weak", color: "bg-orange-400" },
+      { label: "Moderate", color: "bg-yellow-400" },
+      { label: "Strong", color: "bg-green-400" },
+      { label: "Very Strong", color: "bg-blue-500" },
+    ];
+    return { score, ...levels[Math.min(score, levels.length - 1)] };
   };
 
   return (
@@ -350,10 +379,10 @@ const Signup = () => {
                         <button
                           type="button"
                           onClick={sendOtp}
-                          disabled={loading}
+                          disabled={loading || cooldown > 0}
                           className="px-4 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-all font-medium"
                         >
-                          Resend
+                          {cooldown > 0 ? `Resend (${cooldown}s)` : "Resend"}
                         </button>
                       </div>
                     </div>
@@ -414,6 +443,18 @@ const Signup = () => {
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             required
           />
+          {/* Password Strength Meter */}
+          {formData.password && (
+            <div className="mt-2">
+              <div className="w-full h-2 rounded bg-gray-200 overflow-hidden">
+                <div
+                  className={`h-2 rounded transition-all duration-300 ${getPasswordStrength(formData.password).color}`}
+                  style={{ width: `${(getPasswordStrength(formData.password).score + 1) * 20}%` }}
+                ></div>
+              </div>
+              <div className={`text-xs font-medium mt-1 ${getPasswordStrength(formData.password).color.replace('bg-', 'text-')}`}>{getPasswordStrength(formData.password).label}</div>
+            </div>
+          )}
         </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -1,197 +1,166 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaQuoteLeft, FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const StudentTestimonials = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Sarah Johnson",
+      name: "Md Adeem",
       role: "Computer Science Student",
-      university: "Tech University",
-      avatar: "👩‍🎓",
+      // university: "Integral University",
+      avatar: "👨‍🎓",
       rating: 5,
-      text: "The complaint system is incredibly user-friendly! I submitted a hostel maintenance issue and it was resolved within 2 days. The real-time updates kept me informed throughout the process.",
+      text: "Honestly, I was skeptical at first, but the complaint system really surprised me. I reported a broken fan in my hostel room, and not only did I get updates, but the maintenance team actually fixed it the next day.",
       category: "Infrastructure"
     },
     {
       id: 2,
-      name: "Michael Chen",
+      name: "Inzamam siddiqui",
       role: "Engineering Student",
-      university: "Engineering Institute",
+      // university: "Engineering Institute",
       avatar: "👨‍🎓",
-      rating: 5,
-      text: "As an international student, I was worried about language barriers. But the system is so intuitive and the admin team responded quickly to my academic concerns.",
+      rating: 4,
+      text: "I had an issue with my exam schedule clashing with a lab. I submitted a complaint, and while it took a couple of days to get a response, the admin team did follow up and helped me sort it out.",
       category: "Academic"
     },
     {
       id: 3,
-      name: "Emily Rodriguez",
+      name: "Md Asif sheikh ",
       role: "Business Student",
-      university: "Business School",
+      // university: "Business School",
       avatar: "👩‍🎓",
-      rating: 4,
-      text: "The transparency of the complaint tracking is amazing. I can see exactly where my issue stands and get notifications when there are updates. Highly recommend!",
-      category: "General"
+      rating: 3,
+      text: "I love how transparent the system is. I could see every step after I submitted my complaint about the library WiFi. It took a week to resolve, but at least I knew what was happening. The notifications are super helpful!",
+      category: "Technology"
     },
     {
       id: 4,
-      name: "David Kim",
+      name: "Fraz ahmad haidry",
       role: "Medical Student",
-      university: "Medical College",
+      // university: "Medical College",
       avatar: "👨‍🎓",
-      rating: 5,
-      text: "I had a complex academic issue that required multiple follow-ups. The system made it easy to track all communications and the resolution was satisfactory.",
+      rating: 4,
+      text: "The system is easy to use, but I wish the response time was a bit faster. My complaint about lab equipment took almost a week to get sorted. Still, it's better than chasing staff in person.",
       category: "Academic"
     },
     {
       id: 5,
-      name: "Aisha Patel",
+      name: "Mohammad Faraz",
       role: "Arts Student",
-      university: "Arts University",
+      // university: "Arts University",
       avatar: "👩‍🎓",
       rating: 5,
-      text: "The mobile responsiveness is perfect! I can submit and track complaints from my phone. The interface is clean and the process is straightforward.",
-      category: "Technology"
+      text: "I submitted a complaint from my phone while waiting for class, and it actually worked! The interface is clean, and I got a reply from the admin the same day. Super convenient for busy students like me.",
+      category: "General"
     }
   ];
 
-  const [windowStart, setWindowStart] = useState(0);
-  const windowSize = 3;
+  const [current, setCurrent] = useState(0);
+  const [fade, setFade] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const timeoutRef = useRef(null);
   const total = testimonials.length;
 
-  // Calculate the current window of testimonials
-  const getWindowTestimonials = () => {
-    if (total <= windowSize) return testimonials;
-    if (windowStart + windowSize <= total) {
-      return testimonials.slice(windowStart, windowStart + windowSize);
-    } else {
-      // Wrap around
-      return [
-        ...testimonials.slice(windowStart, total),
-        ...testimonials.slice(0, (windowStart + windowSize) % total)
-      ];
+  // Auto-advance every 6 seconds unless hovered
+  useEffect(() => {
+    if (!hovered) {
+      timeoutRef.current = setTimeout(() => {
+        handleNext();
+      }, 6000);
     }
+    return () => clearTimeout(timeoutRef.current);
+  }, [current, hovered]);
+
+  const handlePrev = () => {
+    setFade(false);
+    setTimeout(() => {
+      setCurrent((prev) => (prev - 1 + total) % total);
+      setFade(true);
+    }, 250);
   };
 
-  const nextWindow = () => {
-    setWindowStart((prev) => (prev + 1) % total);
+  const handleNext = () => {
+    setFade(false);
+    setTimeout(() => {
+      setCurrent((prev) => (prev + 1) % total);
+      setFade(true);
+    }, 250);
   };
 
-  const prevWindow = () => {
-    setWindowStart((prev) => (prev - 1 + total) % total);
-  };
-
-  // Dots: one for each possible window start
-  const numDots = total;
+  const t = testimonials[current];
 
   return (
     <section className="py-16 bg-gradient-to-br from-purple-50 via-white to-indigo-50">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-100 rounded-full text-xs font-medium text-purple-700 mb-4">
             💬 Student Stories
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
-            What Students{" "}
+            What Students{' '}
             <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
               Say
             </span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Real experiences from students who have used our complaint management system. 
-            See how it has improved their academic journey.
+            Real experiences from students who have used our complaint management system.
           </p>
         </div>
 
-        {/* Sliding Window Testimonials Grid */}
-        <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          {getWindowTestimonials().map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className={`bg-white rounded-xl p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl`}
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">{testimonial.avatar}</span>
-                <div>
-                  <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-500">{testimonial.role}</p>
-                  <p className="text-xs text-gray-400">{testimonial.university}</p>
-                </div>
-              </div>
+        {/* Carousel Card */}
+        <div
+          className="relative flex justify-center items-center min-h-[320px] sm:min-h-[370px]"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          {/* Left Arrow */}
+          <button
+            onClick={handlePrev}
+            className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors z-10"
+            aria-label="Previous testimonial"
+          >
+            <FaChevronLeft className="text-gray-600 text-lg sm:text-xl" />
+          </button>
 
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <FaStar key={i} className="text-yellow-400 text-sm" />
-                ))}
-              </div>
-
-              <div className="relative mb-4">
-                <FaQuoteLeft className="text-purple-200 text-2xl mb-2" />
-                <p className="text-gray-600 text-sm leading-relaxed italic">
-                  "{testimonial.text}"
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                  {testimonial.category}
-                </span>
-                <span className="text-xs text-gray-400">
-                  Verified Student
-                </span>
-              </div>
+          {/* Testimonial Card with Fade */}
+          <div
+            className={`w-full max-w-xs sm:max-w-md bg-white rounded-2xl shadow-2xl p-4 sm:p-8 flex flex-col items-center transition-opacity duration-300 ${fade ? 'opacity-100' : 'opacity-0'}`}
+            style={{ minHeight: 240, maxWidth: '100%' }}
+          >
+            <span className="text-3xl sm:text-5xl mb-4">{t.avatar}</span>
+            <FaQuoteLeft className="text-purple-200 text-2xl sm:text-3xl mb-2" />
+            <div className="mb-6 w-full relative flex items-center justify-center" style={{ minHeight: '5.5rem' }}>
+              <p className="text-gray-700 text-lg italic text-center line-clamp-5" style={{ display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                "{t.text}"
+              </p>
+              {/* Fade-out gradient overlay */}
+              <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 100%)' }} />
             </div>
-          ))}
-        </div>
+            <div className="flex items-center gap-2 mb-2">
+              <h4 className="font-semibold text-gray-800 text-lg">{t.name}</h4>
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 ml-2">
+                {t.category}
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mb-1">{t.role}</p>
+            <p className="text-xs text-gray-400 mb-2">{t.university}</p>
+            <div className="flex items-center gap-1 mb-2">
+              {[...Array(t.rating)].map((_, i) => (
+                <FaStar key={i} className="text-yellow-400 text-sm sm:text-base" />
+              ))}
+            </div>
+            <span className="text-xs text-gray-400">Verified Student</span>
+          </div>
 
-        {/* Navigation */}
-        <div className="flex items-center justify-center gap-4">
+          {/* Right Arrow */}
           <button
-            onClick={prevWindow}
-            className="p-2 rounded-full bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+            onClick={handleNext}
+            className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors z-10"
+            aria-label="Next testimonial"
           >
-            <FaChevronLeft className="text-gray-600" />
+            <FaChevronRight className="text-gray-600 text-lg sm:text-xl" />
           </button>
-          
-          <div className="flex items-center gap-2">
-            {Array.from({ length: numDots }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setWindowStart(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === windowStart ? 'bg-purple-600' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-          
-          <button
-            onClick={nextWindow}
-            className="p-2 rounded-full bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-          >
-            <FaChevronRight className="text-gray-600" />
-          </button>
-        </div>
-
-        {/* Stats */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600 mb-2">98%</div>
-            <div className="text-sm text-gray-600">Satisfaction Rate</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-indigo-600 mb-2">2.3</div>
-            <div className="text-sm text-gray-600">Avg. Resolution Days</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-600 mb-2">500+</div>
-            <div className="text-sm text-gray-600">Happy Students</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-yellow-600 mb-2">4.8</div>
-            <div className="text-sm text-gray-600">Average Rating</div>
-          </div>
         </div>
       </div>
     </section>
