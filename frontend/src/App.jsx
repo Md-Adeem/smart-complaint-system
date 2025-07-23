@@ -4,6 +4,7 @@ import "./App.css";
 // Global Layout Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Auth & Landing
 import Home from "./components/Landing/Home";
@@ -36,6 +37,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <ScrollToTop />
 
       <Routes>
          {/* Public Routes */}

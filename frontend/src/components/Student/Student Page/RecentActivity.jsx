@@ -105,7 +105,7 @@ const RecentActivity = ({ activities }) => {
   }
 
   return (
-    <div className="relative bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl p-6 shadow-xl border border-gray-100 overflow-hidden">
+    <div className="relative bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full -translate-y-16 translate-x-16 opacity-50 floating-element"></div>
       <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-100 to-indigo-100 rounded-full translate-y-12 -translate-x-12 opacity-50 floating-element" style={{ animationDelay: '1s' }}></div>
